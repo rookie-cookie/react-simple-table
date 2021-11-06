@@ -1,0 +1,176 @@
+import React from 'react'
+import './table.css'
+import {Data} from './Data'
+import { AiOutlineDownload } from 'react-icons/ai'
+
+/**
+
+Requirements:
+
+-- Only those that have a status of "available" are currently able to be downloaded. Your implementation should manage this.
+-- The select-all checkbox should be in an unselected state if no items are selected.
+-- The select-all checkbox should be in a selected state if all items are selected.
+-- The select-all checkbox should be in an indeterminate state if some but not all items are selected.
+-- The "Selected 2" text should reflect the count of selected items and display "None Selected" when there are none selected.
+-- Clicking the select-all checkbox should select all items if none or some are selected.
+-- Clicking the select-all checkbox should deselect all items if all are currently selected.
+-- Status should be correctly formatted
+-- Clicking "Download Selected" when some or all items are displayed should generate an alert box with the path and device of all selected files. 
+-- Precise/exact HTML formatting/styling to match the mockup is not required however rows should change colour when selected and on hover.
+
+**/
+
+class TableComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      List: Data,
+      MasterChecked: false
+    };
+  }
+
+  // Select/Deselect  rows
+
+  onMasterCheck(e) {
+    let tempList = this.state.List;
+    // Check/ UnCheck All Items
+    tempList.map((data) => (data.selected = e.target.checked));
+
+    const totalCheckedItems = tempList.filter((e) => e.selected).length;
+    //Update Selected Header
+    let selectedheader = document.getElementById('showselected');
+    document.getElementById("mastercheckbox").indeterminate = false;
+
+    selectedheader.innerHTML = `Selected ${totalCheckedItems}`
+    if (totalCheckedItems < 1) {
+      selectedheader.innerHTML = `None Selected`
+    }
+
+    //Update State
+    this.setState({
+      MasterChecked: e.target.checked,
+      List: tempList
+    });
+  }
+
+
+  // Update List Item's state and Master Checkbox State
+  onItemCheck(e, item) {
+    let tempList = this.state.List;
+    tempList.map((data) => {
+      if (data.id === item.id) {
+        data.selected = e.target.checked;
+      }
+      return data;
+    });
+
+    //Master Checkbox State
+    const totalItems = this.state.List.length;
+    const totalCheckedItems = tempList.filter((e) => e.selected).length;    
+
+    //Update Selected Count in the Header
+    let selectedheader = document.getElementById('showselected');
+    selectedheader.innerHTML = `Selected ${totalCheckedItems}`
+    document.getElementById("mastercheckbox").indeterminate = true;
+    
+    if (totalCheckedItems < 1) {
+      selectedheader.innerHTML = `None Selected`
+      document.getElementById("mastercheckbox").indeterminate = false;
+    }
+
+    // remove indeterminate if all have been manually selected
+    let totalcheckbox = document.querySelectorAll('input').length;
+    if (totalCheckedItems === totalcheckbox - 1) {
+      document.getElementById("mastercheckbox").indeterminate = false;
+    }
+    
+    // Update State
+    this.setState({
+      MasterChecked: totalItems === totalCheckedItems,
+      List: tempList
+    });
+
+  }
+
+  //Alert available elements when Download is clicked
+  onDownload(){
+    let tempList = this.state.List;
+    let CheckedItems = tempList.filter((e) => e.selected);
+    let results = [];
+    CheckedItems.forEach((element) => {
+      if (element.status === 'available'){
+        results.push(element.device);
+        results.push(element.path);
+      }
+    })
+    if (results.length == 0 ){
+      alert("No file available for download")
+    } else{
+      alert(results.join('\n'))
+    }
+     // Update State
+     this.setState({
+       List: tempList
+     });
+  }
+ 
+ //RENDER HTML
+
+  render() {
+    return ( 
+    <div>
+      
+        <div className="header">
+          <div className="header-elements">
+            <input 
+            type = "checkbox" 
+            id="mastercheckbox"
+            checked = {this.state.MasterChecked} 
+            onChange = {(e) => this.onMasterCheck(e) }/> 
+          </div>
+          <div className="header-elements" id="showselected">None Selected</div>
+          <div className="header-elements" onClick={(e) => this.onDownload()}>
+            <AiOutlineDownload />   Download Selected</div>
+        </div>
+            
+        <div>
+          <table>
+            <thead>
+              <tr >
+                <th></th> 
+                <th>Name</th> 
+                <th>Device</th> 
+                <th>Path</th> 
+                <th></th>
+                <th>Status</th> 
+              </tr> 
+            </thead> 
+            
+            <tbody > 
+              {this.state.List.map((data) => ( 
+                  <tr key = {data.id} className = {data.selected ? "selected" : ""}>
+                    <th>
+                      <input type = "checkbox"
+                        checked = {data.selected}
+                        onChange = {(e) => this.onItemCheck(e, data)}/> 
+                    </th> 
+                    <td>{data.name}</td> 
+                    <td> {data.device}</td> 
+                    <td>{data.path} </td> 
+                    <td className={`${data.isAvailable ? "available" : ""}`}></td>
+                    <td>{data.status}</td> 
+                  </tr>
+                  )
+                )
+              } 
+            </tbody> 
+         </table> 
+        </div> 
+
+        
+      </div>
+    );
+  }
+}
+
+export default TableComponent;
