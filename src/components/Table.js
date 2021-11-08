@@ -38,8 +38,8 @@ class TableComponent extends React.Component {
 
     const totalCheckedItems = tempList.filter((e) => e.selected).length;
     //Update Selected Header
-    let selectedheader = document.getElementById('showselected');
-    document.getElementById("mastercheckbox").indeterminate = false;
+    let selectedheader = document.querySelector('.header .showselected');
+    document.querySelector(".mastercheckbox").indeterminate = false;
 
     selectedheader.innerHTML = `Selected ${totalCheckedItems}`
     if (totalCheckedItems < 1) {
@@ -69,19 +69,19 @@ class TableComponent extends React.Component {
     const totalCheckedItems = tempList.filter((e) => e.selected).length;    
 
     //Update Selected Count in the Header
-    let selectedheader = document.getElementById('showselected');
+    let selectedheader = document.querySelector('.header .showselected');
     selectedheader.innerHTML = `Selected ${totalCheckedItems}`
-    document.getElementById("mastercheckbox").indeterminate = true;
+    document.querySelector(".mastercheckbox").indeterminate = true;
     
     if (totalCheckedItems < 1) {
       selectedheader.innerHTML = `None Selected`
-      document.getElementById("mastercheckbox").indeterminate = false;
+      document.querySelector(".mastercheckbox").indeterminate = false;
     }
 
     // remove indeterminate if all have been manually selected
     let totalcheckbox = document.querySelectorAll('input').length;
     if (totalCheckedItems === totalcheckbox - 1) {
-      document.getElementById("mastercheckbox").indeterminate = false;
+      document.querySelector(".mastercheckbox").indeterminate = false;
     }
     
     // Update State
@@ -123,12 +123,12 @@ class TableComponent extends React.Component {
         <div className="header">
           <div className="header-elements">
             <input 
-            type = "checkbox" 
-            id="mastercheckbox"
+            type = "checkbox"
+            className="mastercheckbox"
             checked = {this.state.MasterChecked} 
             onChange = {(e) => this.onMasterCheck(e) }/> 
           </div>
-          <div className="header-elements" id="showselected">None Selected</div>
+          <div className="header-elements showselected">None Selected</div>
           <div className="header-elements" onClick={(e) => this.onDownload()}>
             <AiOutlineDownload />   Download Selected</div>
         </div>
@@ -136,7 +136,7 @@ class TableComponent extends React.Component {
         <div>
           <table className="table-container">
             <thead>
-              <tr >
+              <tr>
                 <th></th> 
                 <th>Name</th> 
                 <th>Device</th> 
