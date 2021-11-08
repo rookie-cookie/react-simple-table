@@ -56,8 +56,19 @@ table th {
   display: inline-block;
   position: relative;
   top:10px;
+  left: 20%;
 }
 
+.notavailable{
+  height: 3px;
+  width: 3px;
+  background-color:red;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  top:10px;
+  left: 20%;
+}
 
 /* general styling */
 body {

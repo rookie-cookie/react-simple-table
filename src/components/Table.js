@@ -141,7 +141,7 @@ class TableComponent extends React.Component {
                 <th>Name</th> 
                 <th>Device</th> 
                 <th>Path</th> 
-                <th></th>
+                <th>Download</th>
                 <th>Status</th> 
               </tr> 
             </thead> 
@@ -157,7 +157,7 @@ class TableComponent extends React.Component {
                     <td>{data.name}</td> 
                     <td> {data.device}</td> 
                     <td>{data.path} </td> 
-                    <td className={`${data.isAvailable ? "available" : ""}`}></td>
+                    <td className={`${data.isAvailable ? "available" : "notavailable"}`}></td>
                     <td>{data.status}</td> 
                   </tr>
                   )
