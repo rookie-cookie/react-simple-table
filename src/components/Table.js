@@ -134,7 +134,7 @@ class TableComponent extends React.Component {
         </div>
             
         <div>
-          <table>
+          <table className="table-container">
             <thead>
               <tr >
                 <th></th> 
@@ -146,7 +146,7 @@ class TableComponent extends React.Component {
               </tr> 
             </thead> 
             
-            <tbody > 
+            <tbody className="table-body"> 
               {this.state.List.map((data) => ( 
                   <tr key = {data.id} className = {data.selected ? "selected" : ""}>
                     <th>

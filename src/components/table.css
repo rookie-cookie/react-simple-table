@@ -1,4 +1,4 @@
-table {
+.table-container {
   border: 1px solid #ccc;
   border-collapse: collapse;
   margin: 0;
@@ -6,32 +6,27 @@ table {
   width: 100%;
 }
 
-table caption {
-  font-size: 1.5em;
-  margin: .5em 0 .75em;
-}
-
 .selected {
   background-color: #efefef;
 }
 
-table tr {
+.table-container tr {
   border: 1px solid #ddd;
   padding: .35em;
 }
 
-tbody tr:hover {
+.table-body tr:hover {
   background-color: #efefef;
 }
 
 
-table th,
-table td {
+.table-container th,
+.table-container td {
   padding: .625em;
   text-align: left;
 }
 
-table th {
+.table-container th {
   font-size: .85em;
   letter-spacing: .1em;
   text-transform: uppercase;
