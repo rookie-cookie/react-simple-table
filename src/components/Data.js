@@ -19,7 +19,6 @@ export const Data = [{
   {
     id: 3,
     selected: false,
-    name: "Clementine Bauch",
     name: 'uxtheme.dll',
     device: 'Lannister',
     path: '\\Device\\HarddiskVolume1\\Windows\\System32\\uxtheme.dll',
