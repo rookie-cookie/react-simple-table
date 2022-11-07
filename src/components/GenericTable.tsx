@@ -1,6 +1,6 @@
 import React from 'react'
 
-type tableData = {
+export type tableDataProps = {
   id: number,
   selected: boolean,
   name: string,
@@ -11,11 +11,11 @@ type tableData = {
 }
 
 type GenericTableProps = {
-  tableArray: tableData[],
+  tableArray: tableDataProps[],
   tableHeaders: string[],
   push: (obj: any) => void
   remove: (obj: any) => void
-  selectedItems: tableData[]
+  selectedItems: tableDataProps[]
 }
 
 /**
@@ -34,9 +34,7 @@ const GenericTable = ({ tableHeaders, tableArray, push, remove, selectedItems }:
         <thead>
           <tr>
             {tableHeaders.map((header,idx) => {
-              return (
-              <th key={idx}>{header}</th>
-              )
+              return (<th key={idx}>{header}</th>)
             })}
           </tr>
         </thead>

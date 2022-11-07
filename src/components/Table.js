@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState }from 'react'
 import './table.css'
 import {Data} from './Data'
-import { AiOutlineDownload } from 'react-icons/ai'
+import {AiOutlineDownload} from 'react-icons/ai'
 import GenericTable from './GenericTable'
-import { Formik, Form, FieldArray } from 'formik';
+import {Formik, Form, FieldArray} from 'formik';
 import {InputCheckBox} from './GenericTable'
 
 /**
@@ -24,6 +24,8 @@ Requirements:
 **/
 
 const TableComponent = () => {
+
+  const [tableData, setTableData] = useState(Data)
 
   const handleAlertOnSubmit = (values) => {
     let alertMessage = []
@@ -58,10 +60,14 @@ const TableComponent = () => {
                  const {push, remove, form} = fieldArrayProps
                  const {values: {selectedItems}} = form
                  
-                 if (selectedItems.length > 0 && selectedItems.length < Data.length){
-                   document.querySelector(".mastercheckbox").indeterminate = true
+                 if (document.querySelector(".mastercheckbox") !== null){
+                  if (selectedItems.length > 0 && selectedItems.length < Data.length) {
+                    document.querySelector(".mastercheckbox").indeterminate = true
+                  } else {
+                    document.querySelector(".mastercheckbox").indeterminate = false
+                  }
                  }
-              
+
                  return (
                    <>
                     <div className="header">
@@ -74,11 +80,13 @@ const TableComponent = () => {
                                 ...x,
                                 selected: true 
                               }))
+                              setTableData(Data.map(x => {return {...x,selected: true}}))
                             } else {
                               Data.map(x => remove({
                                 ...x,
                                 selected: false
                               }))
+                              setTableData(Data.map(x => {return {...x, selected: false}}))
                             }
                           }}
                         />
@@ -89,7 +97,7 @@ const TableComponent = () => {
 
                     <GenericTable 
                       tableHeaders = {["", "Name", "Device", "Path", "Download", "Status"]} 
-                      tableArray={Data} 
+                      tableArray={tableData} 
                       push={push}
                       remove={remove}
                       selectedItems={selectedItems}
